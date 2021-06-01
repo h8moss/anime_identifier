@@ -1,3 +1,5 @@
+// this file is just to test the functionality of the API
+// TODO: Remove file
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
