@@ -13,7 +13,13 @@ class HomePage extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text('You have 10 requests left'),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(
+                  'You have 10 requests left',
+                  style: TextStyle(fontSize: 20),
+                ),
+              ),
               Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -24,7 +30,7 @@ class HomePage extends StatelessWidget {
                         child: Text('Select image from gallery'),
                       )),
                   SizedBox(height: 16),
-                  Text('or'),
+                  Text('or', style: TextStyle(color: Colors.grey)),
                   SizedBox(height: 16),
                   ElevatedButton(
                       onPressed: () {},
@@ -35,7 +41,10 @@ class HomePage extends StatelessWidget {
                 ],
               ),
               // TODO: make this a flat button to soruly's gh profile
-              Text('Using API by Soruly')
+              Text(
+                'Using API by Soruly',
+                style: TextStyle(decoration: TextDecoration.underline),
+              )
             ],
           ),
         ));
