@@ -12,7 +12,7 @@ class HomePage extends StatelessWidget {
   static Widget create(BuildContext context) {
     return BlocProvider<HomePageBloc>(
       create: (context) => HomePageBloc(
-        HomePageModel(requests: 0),
+        HomePageModel(),
         Provider.of<TraceMoeApi>(context, listen: false),
       ),
       child: HomePage(),
@@ -42,7 +42,7 @@ class HomePage extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   ElevatedButton(
-                      onPressed: () => bloc.onFromGallery(),
+                      onPressed: () => bloc.onFromGallery(context),
                       child: Padding(
                         padding: const EdgeInsets.all(16.0),
                         child: Text('Select image from gallery'),

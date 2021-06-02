@@ -31,7 +31,7 @@ class TraceMoeApi {
     await _getRequestsLeft();
     if (res.statusCode != null && res.statusCode! < 400) {
       if (res.data['error'].isEmpty) {
-        return ImageModel.fromJson(res.data);
+        return ImageModel.fromJson(res.data['result'][0], f.path);
       }
     }
     return null;
