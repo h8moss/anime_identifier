@@ -1,4 +1,6 @@
+import 'package:anime_identifier/app/services/trace_moe_api.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'app/home/home_page.dart';
 
 void main() {
@@ -14,7 +16,10 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: HomePage(),
+      home: Provider<TraceMoeApi>(
+        create: (_) => TraceMoeApi(),
+        child: HomePage.create(context),
+      ),
     );
   }
 }

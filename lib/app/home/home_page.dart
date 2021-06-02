@@ -1,11 +1,29 @@
+import 'package:anime_identifier/app/services/trace_moe_api.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:provider/provider.dart';
+
+import 'home_page_bloc.dart';
+import 'home_page_model.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
 
+  static Widget create(BuildContext context) {
+    return BlocProvider<HomePageBloc>(
+      create: (context) => HomePageBloc(
+        HomePageModel(requests: 0),
+        Provider.of<TraceMoeApi>(context, listen: false),
+      ),
+      child: HomePage(),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    final bloc = BlocProvider.of<HomePageBloc>(context);
+    return BlocBuilder<HomePageBloc, HomePageModel>(
+      builder: (context, state) => Scaffold(
         appBar: AppBar(
           title: Text('Anime identifier'),
         ),
@@ -16,7 +34,7 @@ class HomePage extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Text(
-                  'You have 10 requests left',
+                  'You have ${state.requests} requests left',
                   style: TextStyle(fontSize: 20),
                 ),
               ),
@@ -24,7 +42,7 @@ class HomePage extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   ElevatedButton(
-                      onPressed: () {},
+                      onPressed: () => bloc.onFromGallery(),
                       child: Padding(
                         padding: const EdgeInsets.all(16.0),
                         child: Text('Select image from gallery'),
@@ -47,6 +65,8 @@ class HomePage extends StatelessWidget {
               )
             ],
           ),
-        ));
+        ),
+      ),
+    );
   }
 }
