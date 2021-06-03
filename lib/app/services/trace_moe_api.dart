@@ -1,7 +1,5 @@
 import 'dart:async';
-import 'dart:convert';
 import 'dart:io';
-import 'dart:typed_data';
 
 import 'package:dio/dio.dart';
 
@@ -21,11 +19,12 @@ class TraceMoeApi {
   }
 
   Future<ImageModel?> getImage(File f) async {
-    FormData formData = FormData.fromMap(
-        {'image': await MultipartFile.fromFile(f.path, filename: 'image.jpg')});
+    FormData formData = FormData.fromMap({
+      'image': await MultipartFile.fromFile(f.path, filename: 'image.jpg'),
+    });
 
     Response res = await _dio.post(
-      'https://api.trace.moe/search',
+      'https://api.trace.moe/search?anilistInfo',
       data: formData,
     );
     await _getRequestsLeft();

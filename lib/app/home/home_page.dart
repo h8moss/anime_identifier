@@ -21,51 +21,61 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final bloc = BlocProvider.of<HomePageBloc>(context);
     return BlocBuilder<HomePageBloc, HomePageModel>(
       builder: (context, state) => Scaffold(
         appBar: AppBar(
           title: Text('Anime identifier'),
         ),
-        body: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        body: state.state == HomePageState.Loading
+            ? Center(child: CircularProgressIndicator())
+            : _buildHome(state, context),
+      ),
+    );
+  }
+
+  Widget _buildHome(HomePageModel state, BuildContext context) {
+    final bloc = BlocProvider.of<HomePageBloc>(context);
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Text(
+              'You have ${state.requests} requests left',
+              style: TextStyle(fontSize: 20),
+            ),
+          ),
+          Column(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Text(
-                  'You have ${state.requests} requests left',
-                  style: TextStyle(fontSize: 20),
-                ),
-              ),
-              Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  ElevatedButton(
-                      onPressed: () => bloc.onFromGallery(context),
-                      child: Padding(
-                        padding: const EdgeInsets.all(16.0),
-                        child: Text('Select image from gallery'),
-                      )),
-                  SizedBox(height: 16),
-                  Text('or', style: TextStyle(color: Colors.grey)),
-                  SizedBox(height: 16),
-                  ElevatedButton(
-                      onPressed: () {},
-                      child: Padding(
-                        padding: const EdgeInsets.all(16.0),
-                        child: Text('Submit Image Url'),
-                      )),
-                ],
-              ),
-              // TODO: make this a flat button to soruly's gh profile
-              Text(
-                'Using API by Soruly',
-                style: TextStyle(decoration: TextDecoration.underline),
-              )
+              ElevatedButton(
+                  onPressed: state.state == HomePageState.Off
+                      ? null
+                      : () => bloc.onFromGallery(context),
+                  child: Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Text('Select image from gallery'),
+                  )),
+              SizedBox(height: 16),
+              Text('or', style: TextStyle(color: Colors.grey)),
+              SizedBox(height: 16),
+              ElevatedButton(
+                  onPressed: state.state == HomePageState.Off ? null : () {},
+                  child: Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Text('Submit Image Url'),
+                  )),
             ],
           ),
-        ),
+          TextButton(
+            child: Text(
+              'Using API by Soruly',
+              style: TextStyle(decoration: TextDecoration.underline),
+            ),
+            onPressed: bloc.launchApiUrl,
+          )
+        ],
       ),
     );
   }
