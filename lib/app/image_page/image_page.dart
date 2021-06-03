@@ -16,18 +16,38 @@ class ImagePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: ListView(children: [
-      LinearProgressIndicator(value: model.percentage),
-      Image.file(File(model.imageSource)),
-      Row(
-        children: [Text('Episode'), Text(model.episode.toString())],
-      ),
-      Row(
-        children: [Text('Starts at: '), Text(model.startTime.toString())],
-      ),
-      Row(
-        children: [Text('Ends at: '), Text(model.endTime.toString())],
-      )
-    ]));
+        appBar: AppBar(
+          title: Text(model.title ?? 'Unknown'),
+        ),
+        body: ListView(
+          children: [
+            Center(child: Text('Confidence', style: TextStyle(fontSize: 19))),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: LinearProgressIndicator(
+                value: model.percentage,
+                minHeight: 15,
+                color: model.confidenceColor,
+                backgroundColor: model.confidenceColor.withAlpha(122),
+              ),
+            ),
+            Center(
+                child: Text(model.confidenceText,
+                    style:
+                        TextStyle(color: model.confidenceColor, fontSize: 19))),
+            Image.file(File(model.imageSource)),
+            _buildListText('Source: ${model.title ?? 'unknown'}'),
+            _buildListText('Episode: ${model.episode ?? 'unknown'}'),
+            _buildListText('Starts at: ${model.formatStart}'),
+            _buildListText('Ends at: ${model.formatEnd}'),
+          ],
+        ));
   }
+
+  Widget _buildListText(String text) => Column(
+        children: [
+          Center(child: Text(text, style: TextStyle(fontSize: 19))),
+          Divider(),
+        ],
+      );
 }
