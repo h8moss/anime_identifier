@@ -1,7 +1,9 @@
 import 'dart:io';
 
+import 'package:anime_identifier/app/image_model.dart';
 import 'package:anime_identifier/app/image_page/image_page.dart';
 import 'package:anime_identifier/app/services/trace_moe_api.dart';
+import 'package:anime_identifier/app/url_page/url_page.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:anime_identifier/app/common_widgets/simple_dialog.dart' as d;
@@ -56,7 +58,7 @@ class HomePageBloc extends Bloc<HomePageEvent, HomePageModel> {
     try {
       final pickedFile = await _picker.getImage(source: ImageSource.gallery);
       if (pickedFile != null) {
-        final result = await _api.getImage(File(pickedFile.path));
+        final result = await _api.getImageFromFile(File(pickedFile.path));
         if (result != null)
           ImagePage.show(context, result);
         else
@@ -73,6 +75,11 @@ class HomePageBloc extends Bloc<HomePageEvent, HomePageModel> {
         message: 'Please try again later',
       );
     add(HomePageEvent.finishedLoading);
+  }
+
+  Future<void> onFromUrl(BuildContext context) async {
+    ImageModel? model = await UrlPage.show(context, _api);
+    if (model != null) ImagePage.show(context, model);
   }
 
   Future<void> launchApiUrl() async {

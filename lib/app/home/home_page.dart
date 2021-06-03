@@ -42,7 +42,7 @@ class HomePage extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Text(
-              'You have ${state.requests} requests left',
+              'Monthly requests left: ${state.requests}',
               style: TextStyle(fontSize: 20),
             ),
           ),
@@ -61,7 +61,9 @@ class HomePage extends StatelessWidget {
               Text('or', style: TextStyle(color: Colors.grey)),
               SizedBox(height: 16),
               ElevatedButton(
-                  onPressed: state.state == HomePageState.Off ? null : () {},
+                  onPressed: state.state == HomePageState.Off
+                      ? null
+                      : () => bloc.onFromUrl(context),
                   child: Padding(
                     padding: const EdgeInsets.all(16.0),
                     child: Text('Submit Image Url'),

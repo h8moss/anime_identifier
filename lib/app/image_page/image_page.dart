@@ -35,7 +35,7 @@ class ImagePage extends StatelessWidget {
                 child: Text(model.confidenceText,
                     style:
                         TextStyle(color: model.confidenceColor, fontSize: 19))),
-            Image.file(File(model.imageSource)),
+            model.imageWidget,
             _buildListText('Source: ${model.title ?? 'unknown'}'),
             _buildListText('Episode: ${model.episode ?? 'unknown'}'),
             _buildListText('Starts at: ${model.formatStart}'),

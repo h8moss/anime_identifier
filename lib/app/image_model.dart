@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class ImageModel {
   ImageModel({
-    required this.imageSource,
+    required this.imageWidget,
     required this.percentage,
     this.endTime,
     this.episode,
@@ -10,8 +10,7 @@ class ImageModel {
     this.title,
   });
 
-  ImageModel.fromJson(Map<String, dynamic> json, String imageSource) {
-    this.imageSource = imageSource;
+  ImageModel.fromJson(Map<String, dynamic> json, Widget this.imageWidget) {
     if (json['from'] != null)
       startTime = Duration(
           seconds: json['from'].round(),
@@ -28,7 +27,7 @@ class ImageModel {
     print(json['anilist'].runtimeType);
     if (json['anilist'].runtimeType != int) {
       var jsonTitle = json['anilist']['title'];
-      title = jsonTitle['english'] ?? jsonTitle['romanji'];
+      title = jsonTitle['english'] ?? jsonTitle['romaji'];
     }
     if (json['similarity'] > 0.5)
       // remove .5 to make it appear less sure when it's less sure
@@ -37,7 +36,7 @@ class ImageModel {
       percentage = 0;
   }
 
-  late String imageSource;
+  Widget imageWidget;
   int? episode;
   Duration? startTime;
   Duration? endTime;
