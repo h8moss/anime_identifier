@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.anime_identifier">
    <application
-        android:label="anime_identifier"
+        android:label="anime identifier"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"
